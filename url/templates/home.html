@@ -1,0 +1,93 @@
+{% extends 'base.html'%}
+
+{%block body %}
+
+<div class="container">
+    <div class="card mt-5">
+      <div class="card-header text-center py-3">
+        <h1>URL Shortner Application <i class="fas fa-link px-2"></i></h1>
+      </div>
+      <div class="px-3 py-4">
+        <form action="" method="POST">
+          {% csrf_token %}
+          <div class="row g-1">
+            <div class="col-10">{{form.long_url}}</div>
+            <div class="col-2">
+              <button class="btn btn-success btn-lg w-100" type="submit">
+                Shorten
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    {% if errors %}
+    <div class="alert alert-danger mt-4" role="alert">
+      <p>{{errors}}</p>
+    </div>
+    {% endif %}
+  
+    {% if new_url %}
+  
+    <div class="mx-auto text-center mt-5">
+      <h2 class="text-danger">Your shortened Url</h2>
+      <p>You can copy the Link below and share it with your friends</p>
+      <p  id="short-url" class="form-control form-control-lg">{{new_url}}
+         <i class="fas fa-copy" onclick="coppyDivToClipboard()"></i><div id="textCopy" class="textCopy"></div></p>
+      <div class="p-3 mb-2 bg-dark text-white"><span class="text-danger">Previous URL:</span> {{long_url}}</div>
+      
+    </div>
+    {% endif %}
+    <style>
+       i {
+         cursor: pointer;
+       }
+
+       .textCopy{
+         display:none;
+         position: absolute;
+         bottom: 47%;
+         left: 65%;
+         font-size: 13px;
+         border:0;
+         background: black;
+         color:rgb(40, 168, 72);
+         padding:2px 4px;
+         border-radius:0.2rem;
+         text-align: center;
+         transition:;
+
+       }
+
+
+    </style>
+    <script>
+         function coppyDivToClipboard() {
+          let copyText  =document.getElementById('short-url')
+          text = copyText.textContent
+
+
+          navigator.clipboard.writeText(text)
+
+
+          let textCopy = document.getElementById("textCopy")
+          let IconCopy = document.querySelector('fa-copy')
+
+        
+          textCopy.innerHTML = "copied";
+          textCopy.style.display = "block";
+
+          setTimeout(function(){
+            textCopy.innerHTML ="";
+            textCopy.style.display = "none";
+          },700)
+
+        
+
+          
+         }
+
+       
+    </script>
+  </div>
+  {% endblock body %}
